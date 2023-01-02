@@ -4,14 +4,14 @@ import EditUserPage from "../components/page/editUserPage";
 import UserPage from "../components/page/userPage";
 import UsersListPage from "../components/page/usersListPage";
 import { useAuth } from "../hooks/useAuth";
-import UserProvider from "../hooks/useUsers";
+// import UserProvider from "../hooks/useUsers";
 const Users = () => {
     const params = useParams();
     const { userId, edit } = params;
     const { currentUser } = useAuth();
     return (
         <>
-            <UserProvider>
+            {/* <UserProvider> */}
                 {userId ? (
                     edit ? (
                         userId === currentUser._id ? (
@@ -25,7 +25,7 @@ const Users = () => {
                 ) : (
                     <UsersListPage />
                 )}
-            </UserProvider>
+            {/* </UserProvider> */}
         </>
     );
 };
