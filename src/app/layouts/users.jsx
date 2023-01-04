@@ -6,7 +6,6 @@ import UserPage from "../components/page/userPage";
 import UsersListPage from "../components/page/usersListPage";
 import UsersLoader from "../components/ui/hoc/usersLoader";
 import { getCurrentUserId } from "../store/users";
-// import UserProvider from "../hooks/useUsers";
 const Users = () => {
     const params = useParams();
     const { userId, edit } = params;
@@ -15,7 +14,6 @@ const Users = () => {
     return (
         <>
             <UsersLoader>
-                {/* <UserProvider> */}
                 {userId ? (
                     edit ? (
                         userId === currentUserId ? (
@@ -29,7 +27,6 @@ const Users = () => {
                 ) : (
                     <UsersListPage />
                 )}
-                {/* </UserProvider> */}
             </UsersLoader>
         </>
     );

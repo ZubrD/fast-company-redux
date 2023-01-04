@@ -41,7 +41,7 @@ const usersSlice = createSlice({
         },
         authRequestSuccess: (state, action) => {
             state.auth = action.payload;
-            state.getIsLoggedIn = true;
+            state.isLoggedIn = true;
         },
         authRequestFailed: (state, action) => {
             state.error = action.payload;
@@ -51,6 +51,12 @@ const usersSlice = createSlice({
                 state.entities = [];
             }
             state.entities.push(action.payload);
+        },
+        userLoggedOut: (state) => {
+            state.entities = null;
+            state.isLoggedIn = false;
+            state.auth = null;
+            state.dataLoaded = false;
         }
     }
 });
@@ -62,7 +68,8 @@ const {
     usersRequestFailed,
     authRequestSuccess,
     authRequestFailed,
-    userCreated
+    userCreated,
+    userLoggedOut
 } = actions;
 
 const authRequested = createAction("users/authRequested");
@@ -110,6 +117,11 @@ export const signUp =
             dispatch(authRequestFailed(error.message));
         }
     };
+export const logOut = () => (dispatch) => {
+    localStorageService.removeAuthData();
+    dispatch(userLoggedOut());
+    history.push("/");
+};
 
 function createUser(payload) {
     return async function (dispatch) {
@@ -135,7 +147,11 @@ export const loadUsersList = () => async (dispatch) => {
 };
 
 export const getUsersList = () => (state) => state.users.entities;
-
+export const getCurrentUserData = () => (state) => {
+    return state.users.entities
+        ? state.users.entities.find((u) => u._id === state.users.auth.userId)
+        : null;
+};
 export const getUserById = (userId) => (state) => {
     if (state.users.entities) {
         return state.users.entities.find((u) => u._id === userId);
