@@ -7,7 +7,7 @@ import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import BackHistoryButton from "../../common/backButton";
 import { useAuth } from "../../../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
     getQualities,
     getQualitiesLoadingStatus
@@ -16,13 +16,19 @@ import {
     getProfessions,
     getProfessionsLoadingStatus
 } from "../../../store/professions";
-import { getCurrentUserData } from "../../../store/users";
+import {
+    getCurrentUserData,
+    getUsersList,
+    updateUserDataRedux
+} from "../../../store/users";
 
 const EditUserPage = () => {
+    const dispatch = useDispatch();
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
     const currentUser = useSelector(getCurrentUserData());
+    const usersList = useSelector(getUsersList());
     const { updateUserData } = useAuth();
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
@@ -46,7 +52,7 @@ const EditUserPage = () => {
             ...data,
             qualities: data.qualities.map((q) => q.value)
         });
-
+        dispatch(updateUserDataRedux(usersList, data));
         history.push(`/users/${currentUser._id}`);
     };
     function getQualitiesListByIds(qualitiesIds) {
