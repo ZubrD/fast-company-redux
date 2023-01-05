@@ -6,7 +6,7 @@ import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import BackHistoryButton from "../../common/backButton";
-import { useAuth } from "../../../hooks/useAuth";
+// import { useAuth } from "../../../hooks/useAuth";
 import { useSelector, useDispatch } from "react-redux";
 import {
     getQualities,
@@ -19,6 +19,7 @@ import {
 import {
     getCurrentUserData,
     getUsersList,
+    updateUserData,
     updateUserDataRedux
 } from "../../../store/users";
 
@@ -29,7 +30,7 @@ const EditUserPage = () => {
     const [data, setData] = useState();
     const currentUser = useSelector(getCurrentUserData());
     const usersList = useSelector(getUsersList());
-    const { updateUserData } = useAuth();
+    // const { updateUserData } = useAuth();
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const qualitiesList = qualities.map((q) => ({
@@ -44,11 +45,11 @@ const EditUserPage = () => {
     }));
     const [errors, setErrors] = useState({});
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        await updateUserData({
+        updateUserData({
             ...data,
             qualities: data.qualities.map((q) => q.value)
         });

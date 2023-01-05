@@ -80,6 +80,16 @@ const authRequested = createAction("users/authRequested");
 const userCreateRequested = createAction("users/userCreateRequested");
 const createUserFailed = createAction("users/createUserFailed");
 
+export const updateUserData = (data) => {
+    try {
+        const { content } = userService.update(data);
+        console.log(content);
+    } catch (error) {
+        console.log("Ошибка");
+        // dispatch(authRequestFailed(error.message));
+    }
+};
+
 export const updateUserDataRedux = (users, updatedUserData) => (dispatch) => {
     const newArr = users.filter((user) => user._id !== updatedUserData._id);
     const updatedUser = {

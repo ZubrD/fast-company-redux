@@ -31,6 +31,14 @@ const authService = {
             refresh_token: localStorageService.getRefreshToken()
         });
         return data;
+    },
+    update: async (payload) => {
+        const userId = localStorageService.getUserId();
+        const { data } = await httpAuth.patch(`accounts:update`, {
+            userId,
+            payload
+        });
+        return data;
     }
 };
 
