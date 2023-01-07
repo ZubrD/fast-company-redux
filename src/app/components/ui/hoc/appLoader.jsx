@@ -1,11 +1,11 @@
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
     getIsLoggedIn,
     getUsersLoadingStatus,
     loadUsersList
 } from "../../../store/users";
-import PropTypes from "prop-types";
 import { loadQualitiesList } from "../../../store/qualities";
 import { loadProfessionsList } from "../../../store/professions";
 
@@ -20,7 +20,7 @@ const AppLoader = ({ children }) => {
             dispatch(loadUsersList());
         }
     }, [isLoggedIn]);
-    if (usersStatusLoading) return "loading";
+    if (usersStatusLoading) return "Loading...";
     return children;
 };
 
